@@ -1,0 +1,37 @@
+ref: kafka.produce
+label: "Produce Kafka Message"
+description: "Produce one Kafka record and wait for its delivery report"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: kafka_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  credential_key: {type: string, default: "kafka.credentials", minLength: 1}
+  topic: {type: string, required: true, minLength: 1}
+  message: {type: string, required: true}
+  message_encoding: {type: string, enum: [utf-8, base64], default: utf-8}
+  key: {type: string, description: "Optional record key"}
+  key_encoding: {type: string, enum: [utf-8, base64], default: utf-8}
+  headers:
+    type: array
+    default: []
+    description: "Ordered headers; duplicate names are preserved"
+    items:
+      type: object
+      required: [key, value]
+      properties:
+        key: {type: string, minLength: 1}
+        value: {type: string}
+        value_encoding: {type: string, enum: [utf-8, base64], default: utf-8}
+  partition: {type: integer, minimum: 0, description: "Optional explicit partition"}
+  timestamp_ms: {type: integer, minimum: 0, description: "Optional record timestamp in Unix milliseconds"}
+  delivery_timeout_ms: {type: integer, default: 30000, minimum: 1000, maximum: 300000}
+  flush_timeout_ms: {type: integer, default: 35000, minimum: 1000, maximum: 305000}
+output:
+  operation: {type: string, required: true}
+  result: {type: object, required: true}
+tags: [kafka, producer, message]

@@ -1,0 +1,11 @@
+This product includes an adaptation of StackStorm Exchange's stackstorm-kafka
+pack version 2.0.0, copyright StackStorm, Inc. and contributors, licensed under
+Apache-2.0.
+
+Source: https://github.com/StackStorm-Exchange/stackstorm-kafka
+Commit: 42ec262777308d655262e5b64029c655825eb98a
+Revision date: 2024-01-04
+
+The implementation and Attune component metadata have been substantially
+modified. Apache Kafka and Kafka are trademarks of The Apache Software
+Foundation; use is descriptive only.

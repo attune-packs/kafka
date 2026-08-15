@@ -1,0 +1,12 @@
+ref: kafka.kafka_consumer
+label: "Kafka Consumer Sensor"
+description: "Consumes Kafka records per active rule with post-emission manual commits"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: kafka_consumer.py
+trigger_types: [kafka.message]
+poll_interval: 1
+log_retention_policy: versions
+log_retention_limit: 4
+tags: [kafka, consumer, message, managed]

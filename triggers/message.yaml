@@ -1,0 +1,38 @@
+ref: kafka.message
+label: "Kafka Message"
+description: "Emitted for a Kafka record before its consumer offset is committed"
+enabled: true
+parameters:
+  credential_file: {type: string, required: true, pattern: "^/run/secrets/.+", description: "Kafka credentials mounted below /run/secrets"}
+  topics:
+    type: array
+    required: true
+    minItems: 1
+    maxItems: 100
+    items: {type: string, minLength: 1}
+  group_id: {type: string, required: true, minLength: 1}
+  client_id: {type: string, default: "attune-kafka-consumer", minLength: 1}
+  auto_offset_reset: {type: string, enum: [earliest, latest, error], default: error}
+  isolation_level: {type: string, enum: [read_committed, read_uncommitted], default: read_committed}
+  max_retries: {type: integer, default: 3, minimum: 0, maximum: 100}
+  retry_delay_seconds: {type: number, default: 1, minimum: 0, maximum: 30}
+  max_message_bytes: {type: integer, default: 1048576, minimum: 1, maximum: 16777216}
+  poll_timeout_seconds: {type: number, default: 1, minimum: 0.1, maximum: 5}
+  max_poll_interval_ms: {type: integer, default: 300000, minimum: 30000, maximum: 900000}
+  session_timeout_ms: {type: integer, default: 45000, minimum: 6000, maximum: 300000}
+output:
+  topic: {type: string, required: true}
+  partition: {type: integer, required: true}
+  offset: {type: integer, required: true}
+  timestamp_type: {type: integer, required: true}
+  timestamp_ms: {type: integer, required: true}
+  delivery_attempt: {type: integer, required: true}
+  key_is_null: {type: boolean, required: true}
+  key_base64: {type: string}
+  key_text: {type: string}
+  value_is_null: {type: boolean, required: true}
+  value_base64: {type: string}
+  value_text: {type: string}
+  size_bytes: {type: integer, required: true}
+  headers: {type: array, required: true}
+tags: [kafka, consumer, message]

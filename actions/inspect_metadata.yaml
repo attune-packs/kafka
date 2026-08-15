@@ -1,0 +1,22 @@
+ref: kafka.inspect_metadata
+label: "Inspect Kafka Metadata"
+description: "Inspect cluster, topic, and partition metadata without requesting a named topic"
+enabled: true
+runner_type: python
+runtime_version: ">=3.10"
+entry_point: kafka_action.py
+parameter_delivery: stdin
+parameter_format: json
+output_format: json
+default_execution_permission_set_refs: [standard]
+parameters:
+  credential_key: {type: string, default: "kafka.credentials", minLength: 1}
+  topic: {type: string, minLength: 1, description: "Optional client-side exact topic filter"}
+  include_internal: {type: boolean, default: false}
+  max_topics: {type: integer, default: 100, minimum: 1, maximum: 1000}
+  max_partitions: {type: integer, default: 1000, minimum: 1, maximum: 10000}
+  timeout_seconds: {type: number, default: 10, minimum: 1, maximum: 60}
+output:
+  operation: {type: string, required: true}
+  result: {type: object, required: true}
+tags: [kafka, metadata, topic, partition, inspection]
