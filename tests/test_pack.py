@@ -123,10 +123,10 @@ class PackTests(unittest.TestCase):
         self.assertIn("group_id:", trigger)
         self.assertIn("value_base64:", trigger)
 
-    def test_key_lookup_requests_decryption(self):
+    def test_key_lookup_uses_current_sdk_signature(self):
         calls = {}
         get_key = ModuleType("attune.api_client.api.secrets.get_key")
-        get_key.sync_detailed = lambda ref, *, client, decrypt: calls.update(ref=ref, client=client, decrypt=decrypt) or SimpleNamespace(
+        get_key.sync_detailed = lambda ref, *, client: calls.update(ref=ref, client=client) or SimpleNamespace(
             status_code=200,
             parsed=SimpleNamespace(data=SimpleNamespace(value={"kafka": {"bootstrap_servers": "broker:9092"}})),
         )
@@ -141,8 +141,8 @@ class PackTests(unittest.TestCase):
             "attune.api_client.api.secrets": secrets,
         }
         with patch.dict(sys.modules, modules):
-            kafka_client.fetch_key("kafka.credentials")
-        self.assertEqual(calls, {"ref": "kafka.credentials", "client": "execution-client", "decrypt": True})
+            kafka_client.fetch_key("pack.kafka.credentials")
+        self.assertEqual(calls, {"ref": "pack.kafka.credentials", "client": "execution-client"})
 
     def test_client_config_supports_tls_scram_and_oidc(self):
         scram = kafka_client.client_config(

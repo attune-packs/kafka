@@ -10,7 +10,7 @@ parameter_format: json
 output_format: json
 default_execution_permission_set_refs: [standard]
 parameters:
-  credential_key: {type: string, default: "kafka.credentials", minLength: 1}
+  credential_key: {type: string, default: "pack.kafka.credentials", minLength: 1}
   topic: {type: string, minLength: 1, description: "Optional client-side exact topic filter"}
   include_internal: {type: boolean, default: false}
   max_topics: {type: integer, default: 100, minimum: 1, maximum: 1000}

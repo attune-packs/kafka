@@ -10,7 +10,7 @@ parameter_format: json
 output_format: json
 default_execution_permission_set_refs: [standard]
 parameters:
-  credential_key: {type: string, default: "kafka.credentials", minLength: 1}
+  credential_key: {type: string, default: "pack.kafka.credentials", minLength: 1}
   topic: {type: string, required: true, minLength: 1}
   message: {type: string, required: true}
   message_encoding: {type: string, enum: [utf-8, base64], default: utf-8}

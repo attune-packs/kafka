@@ -34,7 +34,7 @@ def fetch_key(ref: str) -> dict[str, Any]:
     except ImportError as exc:
         raise KafkaPackError("attune-sdk is required to resolve credential_key") from exc
     try:
-        response = get_key.sync_detailed(ref, client=attune.context.client, decrypt=True)
+        response = get_key.sync_detailed(ref, client=attune.context.client)
     except Exception as exc:
         raise KafkaPackError(f"unable to read credential Key {ref!r}") from exc
     status = int(response.status_code)
@@ -238,7 +238,7 @@ def produce(params: Mapping[str, Any]) -> dict[str, Any]:
         from confluent_kafka import Producer
     except ImportError as exc:
         raise KafkaPackError("confluent-kafka is not installed") from exc
-    credentials = fetch_key(str(params.get("credential_key", "kafka.credentials")))
+    credentials = fetch_key(str(params.get("credential_key", "pack.kafka.credentials")))
     topic = params.get("topic")
     if not isinstance(topic, str) or not topic:
         raise KafkaPackError("topic must be a non-empty string")
@@ -317,7 +317,7 @@ def inspect_metadata(params: Mapping[str, Any]) -> dict[str, Any]:
         from confluent_kafka.admin import AdminClient
     except ImportError as exc:
         raise KafkaPackError("confluent-kafka is not installed") from exc
-    credentials = fetch_key(str(params.get("credential_key", "kafka.credentials")))
+    credentials = fetch_key(str(params.get("credential_key", "pack.kafka.credentials")))
     topic_filter = params.get("topic")
     if topic_filter is not None and (not isinstance(topic_filter, str) or not topic_filter):
         raise KafkaPackError("topic must be a non-empty string")

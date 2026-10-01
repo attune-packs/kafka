@@ -19,7 +19,7 @@ version 2.0.0 (`42ec262777308d655262e5b64029c655825eb98a`).
 
 ## Credentials And Transport
 
-Create a pack-owned encrypted Attune Key named `kafka.credentials`. The sensor
+Create a pack-owned encrypted Attune Key named `pack.kafka.credentials`. The sensor
 file uses the same object shape. A SASL/SCRAM example is:
 
 ```json
